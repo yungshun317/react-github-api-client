@@ -7,7 +7,7 @@ export function useFetch(uri) {
 	// Error
 	const [error, setError] = useState();
 	// Pending
-	const [loading, setLoading] = useState();
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		if (!uri) return;

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import { useFetch } from "./hooks";
+
 /* [2] Cache data locally for offline usage and performance bump
 const loadJSON = key => key && JSON.parse(localStorage.getItem(key));
 const saveJSON = (key, data) => localStorage.setItem(key, JSON.stringify(data));
@@ -36,23 +38,13 @@ function GitHubUser({ login }) {
 
 // [3] Handle promise states
 function GitHubUser({ login }) {
-	const [data, setData] = useState();
-	const [error, setError] = useState();
-	const [loading, setLoading] = useState();
-
-	useEffect(() => {
-		if (!login) return;
-		setLoading(true);
-		fetch(`https://api.github.com/users/${login}`)
-		    .then(data => data.json())
-		    .then(setData)
-		    .then(() => setLoading(false))
-		    .catch(setError);
-	}, [login]);
+	const { loading, data, error } = useFetch(
+		`https://api.github.com/users/${login}`
+	);
 
 	if (loading) return <h1>loading...</h1>;
 	if (error) return <pre>{JSON.stringify(data, null, 2)}</pre>;
-	if (!data) return null;
+
 	return (
 		<div className="githubUser">
 		    <img
@@ -60,12 +52,12 @@ function GitHubUser({ login }) {
 		        alt={data.login}
 		        style={{ width: 200 }}
 		    />
-		<div>
-		    <h1>{data.login}</h1>
-		    {data.name && <p>{data.name}</p>}
-		    {data.location && <p>{data.location}</p>}
+		    <div>
+		        <h1>{data.login}</h1>
+		        {data.name && <p>{data.name}</p>}
+		        {data.location && <p>{data.location}</p>}
+		    </div>
 		</div>
-		</div> 
 	)
 }
 
