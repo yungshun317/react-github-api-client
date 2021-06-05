@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useFetch } from "./hooks";
+
 // [5] `Fetch` abstracts away the mechanics of handling what to render
 export default function Fetch({
 	uri,

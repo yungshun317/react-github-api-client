@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { useFetch } from "./hooks";
+import Fetch from "./Fetch";
 
 /* [2] Cache data locally for offline usage and performance bump
 const loadJSON = key => key && JSON.parse(localStorage.getItem(key));
@@ -38,13 +38,16 @@ function GitHubUser({ login }) {
 
 // [3] Handle promise states
 function GitHubUser({ login }) {
-	const { loading, data, error } = useFetch(
-		`https://api.github.com/users/${login}`
+	return (
+		<Fetch
+		    uri={`https://api.github.com/users/${login}`}
+		    renderSuccess={UserDetails}
+		/>
 	);
+}
 
-	if (loading) return <h1>loading...</h1>;
-	if (error) return <pre>{JSON.stringify(data, null, 2)}</pre>;
-
+// [6] Simplify the logic in `GitHubUser`
+function UserDetails({ data }) {
 	return (
 		<div className="githubUser">
 		    <img
