@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 
 // [4] Create the custom hook for reusability
 export function useFetch(uri) {
@@ -32,15 +32,19 @@ export const useIterator = (
 ) => {
     const [i, setIndex] = useState(initialIndex);
     
-    const prev = () => {
+    // `useCallback` returns its function when the dependencies change
+    const prev = useCallback(() => {
     	if (i === 0) return setIndex(items.length - 1);
     	setIndex(i - 1);
-    };
+    }, [i]);
 
-    const next = () => {
+    const next = useCallback(() => {
     	if (i === items.length - 1) return setIndex(0);
     	setIndex(i + 1);
-    }
+    }, [i]);
 
-    return [items[i], prev, next];
+    // `useMemo` calls its function and returns the result
+    const item = useMemo(() => items[i], [i]);
+
+    return [item || items[0], prev, next];
 }
