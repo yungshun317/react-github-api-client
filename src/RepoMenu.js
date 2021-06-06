@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
+
 import { useIterator } from "./hooks";
 
 // [8] Switch between repositories
-export function RepoMenu({
+export default function RepoMenu({
 	repositories,
 	onSelect = f => f
 }) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Fetch from "./Fetch";
+import UserRepositories from "./UserRepositories";
 
 /* [2] Cache data locally for offline usage and performance bump
 const loadJSON = key => key && JSON.parse(localStorage.getItem(key));
@@ -60,6 +61,10 @@ function UserDetails({ data }) {
 		        {data.name && <p>{data.name}</p>}
 		        {data.location && <p>{data.location}</p>}
 		    </div>
+		    <UserRepositories
+		        login={data.login}
+		        onSelect={repoName => console.log(`${repoName} selected`)}
+		    />
 		</div>
 	)
 }
